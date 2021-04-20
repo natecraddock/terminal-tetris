@@ -7,6 +7,8 @@ endif()
 
 project(terminal-tetris)
 
+add_compile_options(-Wall -Werror)
+
 set(EXECUTABLE_OUTPUT_PATH ..)
 
 add_subdirectory(src)

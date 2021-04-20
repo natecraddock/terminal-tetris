@@ -4,6 +4,9 @@
 
 #include "screen.h"
 
+//min 26 rows
+//min 58 cols
+
 void init_curses() {
     initscr();
     cbreak();
@@ -28,4 +31,15 @@ void get_screen_size(int *y, int *x) {
     getmaxyx(stdscr, *y, *x);
 }
 
-void draw() {}
+void draw() {
+    
+    int y, x;
+
+    get_screen_size(&y, &x);
+
+    for (int i = 2; i < x - 2; i++) {
+        mvwaddch(stdscr, y, i, '-');
+    }
+
+    refresh();
+}
