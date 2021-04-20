@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <unistd.h>
 
@@ -18,9 +19,10 @@ int main() {
         return 1;
     }
 
-    sleep(2);
     draw();
+
     sleep(2);
+
     cleanup_curses();
     return 0;
 }

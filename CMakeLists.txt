@@ -7,7 +7,7 @@ endif()
 
 project(terminal-tetris)
 
-add_compile_options(-Wall -Werror)
+add_compile_options(-Wall -Werror -D_XOPEN_SOURCE_EXTENDED)
 
 set(EXECUTABLE_OUTPUT_PATH ..)
 
