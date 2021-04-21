@@ -13,4 +13,9 @@ void cleanup_curses();
  */
 void get_screen_size(int *y, int *x);
 
+/**
+ * Check if screen size is large enough to display the game area.
+ */
+bool check_screen_size();
+
 void draw();

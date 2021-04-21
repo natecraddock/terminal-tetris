@@ -16,6 +16,21 @@
 #define CORNER_SE "\u256F"
 #define CORNER_SW "\u2570"
 
+#define PADDING 2
+#define GAME_AREA_WIDTH 20
+#define GAME_AREA_HEIGHT 20
+#define HOLD_AREA_WIDTH 12
+#define HOLD_AREA_HEIGHT 4
+#define QUEUE_AREA_WIDTH 12
+#define QUEUE_AREA_HEIGHT 16
+#define SCORE_AREA_WIDTH 12
+#define SCORE_AREA_HEIGHT 3
+
+#define BORDER(x) (x + 2)
+
+#define MIN_HEIGHT (PADDING + BORDER(GAME_AREA_HEIGHT) + PADDING)
+#define MIN_WIDTH (PADDING + BORDER(HOLD_AREA_WIDTH) + PADDING + BORDER(GAME_AREA_WIDTH) + PADDING + BORDER(QUEUE_AREA_WIDTH) + PADDING)
+
 /**
  * Given a top left y, x coordinate, and a height and width
  * draw a border around that box.
@@ -69,6 +84,12 @@ void cleanup_curses() {
     endwin();
 }
 
+bool check_screen_size() {
+    int y, x;
+    get_screen_size(&y, &x);
+    return (y > MIN_HEIGHT) && (x > MIN_WIDTH);
+}
+
 void get_screen_size(int *y, int *x) {
     // getmaxyx is a macro so it automatically adds the & before
     // y and x, so dereference is necessary here.
@@ -77,11 +98,30 @@ void get_screen_size(int *y, int *x) {
 
 void draw() {
     int y, x;
-
     get_screen_size(&y, &x);
 
-    draw_box(2, 2, y - 4, x - 4);
-    draw_box(20, 10, 20, 20);
+    int origin_y = (y / 2) - (MIN_HEIGHT / 2);
+    int origin_x = (x / 2) - (MIN_WIDTH / 2);
+
+    draw_box(origin_y, origin_x, MIN_HEIGHT, MIN_WIDTH);
+
+    origin_x += 1;
+
+    // Hold box
+    draw_box(origin_y + PADDING, origin_x + PADDING, HOLD_AREA_HEIGHT, HOLD_AREA_WIDTH);
+
+    // Score box
+    draw_box(origin_y + PADDING + BORDER(HOLD_AREA_HEIGHT) + PADDING,
+             origin_x + PADDING, SCORE_AREA_HEIGHT, SCORE_AREA_WIDTH);
+
+    origin_x += PADDING + BORDER(HOLD_AREA_WIDTH);
+
+    // Game area
+    draw_box(origin_y + PADDING, origin_x + PADDING, GAME_AREA_HEIGHT, GAME_AREA_WIDTH);
+    origin_x += PADDING + BORDER(GAME_AREA_WIDTH);
+
+    // Queue area
+    draw_box(origin_y + PADDING, origin_x + PADDING, QUEUE_AREA_HEIGHT, QUEUE_AREA_WIDTH);
 
     refresh();
 }
