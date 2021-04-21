@@ -67,7 +67,7 @@ static void draw_box(int y, int x, int h, int w) {
   */
 static void draw_labeled_box(int y, int x, int h, int w, const char *label) {
     draw_box(y, x, h, w);
-    
+
     int str_offset = (w + 2 - strlen(label)) / 2;
 
     mvwaddstr(stdscr, y - 1, x - 1 + str_offset, label);
@@ -116,7 +116,7 @@ void draw() {
     int origin_x = (x / 2) - (MIN_WIDTH / 2);
 
     // draw_box(origin_y, origin_x, MIN_HEIGHT, MIN_WIDTH);
-
+    clear();
     origin_x += 1;
 
     // Hold box
@@ -134,6 +134,30 @@ void draw() {
 
     // Queue area
     draw_labeled_box(origin_y + PADDING, origin_x + PADDING, QUEUE_AREA_HEIGHT, QUEUE_AREA_WIDTH, "NEXT");
+
+    refresh();
+}
+
+static void draw_title(int y, int w) {
+    const int longest_line = 52;
+    const int offset = (w - longest_line) / 2;
+
+    mvwaddstr(stdscr, y + 1, offset, "  _|                  _|                _|");
+    mvwaddstr(stdscr, y + 2, offset, "_|_|_|_|    _|_|    _|_|_|_|  _|  _|_|        _|_|_|");
+    mvwaddstr(stdscr, y + 3, offset, "  _|      _|_|_|_|    _|      _|_|      _|  _|_|");
+    mvwaddstr(stdscr, y + 4, offset, "  _|      _|          _|      _|        _|      _|_|");
+    mvwaddstr(stdscr, y + 5, offset, "    _|_|    _|_|_|      _|_|  _|        _|  _|_|_|");
+}
+
+void draw_menu() {
+    int y, x;
+    get_screen_size(&y, &x);
+
+    int origin_y = (y / 2) - (MIN_HEIGHT / 2);
+    int origin_x = (x / 2) - (MIN_WIDTH / 2);
+
+    clear();
+    draw_title(origin_y, x);
 
     refresh();
 }

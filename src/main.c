@@ -16,6 +16,10 @@ int main() {
         return 1;
     }
 
+    draw_menu();
+
+    sleep(2);
+
     draw();
 
     sleep(2);
