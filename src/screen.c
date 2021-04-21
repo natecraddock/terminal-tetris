@@ -1,6 +1,7 @@
 #include <locale.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include <string.h>
 
 #include <ncurses.h>
 
@@ -61,6 +62,17 @@ static void draw_box(int y, int x, int h, int w) {
     }
 }
 
+/**
+  * Same as draw_box, but adds a box label on the top border
+  */
+static void draw_labeled_box(int y, int x, int h, int w, const char *label) {
+    draw_box(y, x, h, w);
+    
+    int str_offset = (w + 2 - strlen(label)) / 2;
+
+    mvwaddstr(stdscr, y - 1, x - 1 + str_offset, label);
+}
+
 void init_curses() {
     // Required for unicode
     setlocale(LC_ALL, "");
@@ -103,16 +115,16 @@ void draw() {
     int origin_y = (y / 2) - (MIN_HEIGHT / 2);
     int origin_x = (x / 2) - (MIN_WIDTH / 2);
 
-    draw_box(origin_y, origin_x, MIN_HEIGHT, MIN_WIDTH);
+    // draw_box(origin_y, origin_x, MIN_HEIGHT, MIN_WIDTH);
 
     origin_x += 1;
 
     // Hold box
-    draw_box(origin_y + PADDING, origin_x + PADDING, HOLD_AREA_HEIGHT, HOLD_AREA_WIDTH);
+    draw_labeled_box(origin_y + PADDING, origin_x + PADDING, HOLD_AREA_HEIGHT, HOLD_AREA_WIDTH, "HOLD");
 
     // Score box
-    draw_box(origin_y + PADDING + BORDER(HOLD_AREA_HEIGHT) + PADDING,
-             origin_x + PADDING, SCORE_AREA_HEIGHT, SCORE_AREA_WIDTH);
+    draw_labeled_box(origin_y + PADDING + BORDER(HOLD_AREA_HEIGHT) + PADDING,
+             origin_x + PADDING, SCORE_AREA_HEIGHT, SCORE_AREA_WIDTH, "POINTS");
 
     origin_x += PADDING + BORDER(HOLD_AREA_WIDTH);
 
@@ -121,7 +133,7 @@ void draw() {
     origin_x += PADDING + BORDER(GAME_AREA_WIDTH);
 
     // Queue area
-    draw_box(origin_y + PADDING, origin_x + PADDING, QUEUE_AREA_HEIGHT, QUEUE_AREA_WIDTH);
+    draw_labeled_box(origin_y + PADDING, origin_x + PADDING, QUEUE_AREA_HEIGHT, QUEUE_AREA_WIDTH, "NEXT");
 
     refresh();
 }
