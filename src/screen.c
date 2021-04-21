@@ -79,6 +79,7 @@ void init_curses() {
 
     initscr();
     cbreak();
+    nodelay(stdscr, true);
     noecho();
     nonl();
     intrflush(stdscr, false);
@@ -90,6 +91,7 @@ void init_curses() {
 void cleanup_curses() {
     // Make everything work again :)
     nocbreak();
+    nodelay(stdscr, false);
     echo();
     nl();
     keypad(stdscr, false);
@@ -108,7 +110,7 @@ void get_screen_size(int *height, int *width) {
     getmaxyx(stdscr, *height, *width);
 }
 
-void draw() {
+void draw(const char *debug) {
     int height, width;
     get_screen_size(&height, &width);
 
@@ -116,7 +118,7 @@ void draw() {
     int origin_x = (width / 2) - (MIN_WIDTH / 2);
 
     // draw_box(origin_y, origin_x, MIN_HEIGHT, MIN_WIDTH);
-    clear();
+    erase();
     origin_x += 1;
 
     // Hold box
@@ -134,6 +136,11 @@ void draw() {
 
     // Queue area
     draw_labeled_box(origin_y + PADDING, origin_x + PADDING, QUEUE_AREA_HEIGHT, QUEUE_AREA_WIDTH, "NEXT");
+
+#if DEBUG_LINE
+    // Draw debug info
+    mvwaddstr(stdscr, 0, 0, debug);
+#endif
 
     refresh();
 }

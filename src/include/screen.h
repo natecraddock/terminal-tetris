@@ -18,6 +18,6 @@ void get_screen_size(int *y, int *x);
  */
 bool check_screen_size();
 
-void draw();
+void draw(const char *debug);
 void draw_menu();
 

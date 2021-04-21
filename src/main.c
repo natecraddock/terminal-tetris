@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#include "events.h"
 #include "screen.h"
 
 int main() {
@@ -19,10 +20,14 @@ int main() {
     draw_menu();
 
     sleep(2);
+    while (1) {
+        Event e = get_event();
 
-    draw();
+        const char *test = event_to_string(e);
 
-    sleep(2);
+        draw(test);
+        sleep(1);
+    }
 
     cleanup_curses();
     return 0;

@@ -5,6 +5,11 @@ if(${COLOR_OUTPUT})
   add_compile_options(-fdiagnostics-color=always)
 endif()
 
+option(DEBUG_LINE "Draw debug info on the first line" OFF)
+if(${DEBUG_LINE})
+  add_compile_options(-DDEBUG_LINE)
+endif()
+
 project(terminal-tetris)
 
 add_compile_options(-Wall -Werror -D_XOPEN_SOURCE_EXTENDED)
