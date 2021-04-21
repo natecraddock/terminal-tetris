@@ -102,18 +102,18 @@ bool check_screen_size() {
     return (y > MIN_HEIGHT) && (x > MIN_WIDTH);
 }
 
-void get_screen_size(int *y, int *x) {
+void get_screen_size(int *height, int *width) {
     // getmaxyx is a macro so it automatically adds the & before
-    // y and x, so dereference is necessary here.
-    getmaxyx(stdscr, *y, *x);
+    // height and width, so dereference is necessary here.
+    getmaxyx(stdscr, *height, *width);
 }
 
 void draw() {
-    int y, x;
-    get_screen_size(&y, &x);
+    int height, width;
+    get_screen_size(&height, &width);
 
-    int origin_y = (y / 2) - (MIN_HEIGHT / 2);
-    int origin_x = (x / 2) - (MIN_WIDTH / 2);
+    int origin_y = (height / 2) - (MIN_HEIGHT / 2);
+    int origin_x = (width / 2) - (MIN_WIDTH / 2);
 
     // draw_box(origin_y, origin_x, MIN_HEIGHT, MIN_WIDTH);
     clear();
@@ -150,14 +150,13 @@ static void draw_title(int y, int w) {
 }
 
 void draw_menu() {
-    int y, x;
-    get_screen_size(&y, &x);
+    int height, width;
+    get_screen_size(&height, &width);
 
-    int origin_y = (y / 2) - (MIN_HEIGHT / 2);
-    int origin_x = (x / 2) - (MIN_WIDTH / 2);
+    int origin_y = (height / 2) - (MIN_HEIGHT / 2);
 
     clear();
-    draw_title(origin_y, x);
+    draw_title(origin_y, width);
 
     refresh();
 }
