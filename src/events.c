@@ -40,6 +40,11 @@ Event get_event() {
 
         case 'b':
             return EVENT_HOLD;
+
+        case '\n':
+        case '\r':
+        case KEY_ENTER:
+            return EVENT_SELECT;
     }
 
     return EVENT_NONE;
@@ -73,6 +78,9 @@ const char *event_to_string(Event event) {
 
         case EVENT_HOLD:
             return "EVENT_HOLD";
+
+        case EVENT_SELECT:
+            return "EVENT_SELECT";
     }
     return "EVENT_NONE";
 }

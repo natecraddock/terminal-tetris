@@ -8,6 +8,7 @@ typedef enum {
     EVENT_PAUSE,
     EVENT_QUIT,
     EVENT_HOLD,
+    EVENT_SELECT,
 } Event;
 
 Event get_event();
