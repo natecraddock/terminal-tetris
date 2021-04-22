@@ -1,8 +1,6 @@
-#include <stdbool.h>
 #include <stdio.h>
-#include <unistd.h>
 
-#include "events.h"
+#include "game.h"
 #include "screen.h"
 
 int main() {
@@ -17,17 +15,7 @@ int main() {
         return 1;
     }
 
-    draw_menu();
-
-    sleep(2);
-    while (1) {
-        Event e = get_event();
-
-        const char *test = event_to_string(e);
-
-        draw(test);
-        sleep(1);
-    }
+    start_game();
 
     cleanup_curses();
     return 0;

@@ -118,7 +118,6 @@ void draw(const char *debug) {
     int origin_x = (width / 2) - (MIN_WIDTH / 2);
 
     // draw_box(origin_y, origin_x, MIN_HEIGHT, MIN_WIDTH);
-    erase();
     origin_x += 1;
 
     // Hold box
@@ -137,12 +136,7 @@ void draw(const char *debug) {
     // Queue area
     draw_labeled_box(origin_y + PADDING, origin_x + PADDING, QUEUE_AREA_HEIGHT, QUEUE_AREA_WIDTH, "NEXT");
 
-#if DEBUG_LINE
-    // Draw debug info
-    mvwaddstr(stdscr, 0, 0, debug);
-#endif
-
-    refresh();
+    wnoutrefresh(stdscr);
 }
 
 static void draw_title(int y, int w) {
@@ -162,8 +156,22 @@ void draw_menu() {
 
     int origin_y = (height / 2) - (MIN_HEIGHT / 2);
 
-    clear();
     draw_title(origin_y, width);
 
-    refresh();
+    wnoutrefresh(stdscr);
 }
+
+void erase_screen() {
+    erase();
+}
+
+void update_screen() {
+    doupdate();
+}
+
+#if DEBUG_LINE
+void draw_debug_line(const char *event) {
+    mvwaddstr(stdscr, 0, 0, event);
+    wnoutrefresh(stdscr);
+}
+#endif
