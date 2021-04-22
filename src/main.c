@@ -4,19 +4,19 @@
 #include "screen.h"
 
 int main() {
-    init_curses();
+    init_screen();
 
     int y, x;
     get_screen_size(&y, &x);
 
     if (!check_screen_size()) {
-        cleanup_curses();
+        cleanup_screen();
         fprintf(stderr, "Your terminal size is too small, please resize it and re-run the program.\n");
         return 1;
     }
 
     start_game();
 
-    cleanup_curses();
+    cleanup_screen();
     return 0;
 }

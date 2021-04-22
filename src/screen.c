@@ -73,7 +73,7 @@ static void draw_labeled_box(int y, int x, int h, int w, const char *label) {
     mvwaddstr(stdscr, y - 1, x - 1 + str_offset, label);
 }
 
-void init_curses() {
+void init_screen() {
     // Required for unicode
     setlocale(LC_ALL, "");
 
@@ -88,7 +88,7 @@ void init_curses() {
     curs_set(0);
 }
 
-void cleanup_curses() {
+void cleanup_screen() {
     // Make everything work again :)
     nocbreak();
     nodelay(stdscr, false);

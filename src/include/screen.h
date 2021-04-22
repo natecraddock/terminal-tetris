@@ -1,13 +1,14 @@
 #include <stdbool.h>
+
 /**
  * Initializes curses
  */
-void init_curses();
+void init_screen();
 
 /**
  * Cleanup curses and return terminal to normal state
  */
-void cleanup_curses();
+void cleanup_screen();
 
 /**
  * Places the current screen dimensions in the arguments y and x.
