@@ -1,3 +1,5 @@
+#include "queue.h"
+
 typedef enum {
     STATE_MENU,
     STATE_PLAY,
@@ -6,6 +8,8 @@ typedef enum {
 
 typedef struct Game {
     State state;
+    Queue next_queue;
+    Queue bag;
 } Game;
 
 void start_game();

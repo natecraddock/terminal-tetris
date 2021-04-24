@@ -4,6 +4,15 @@
 #include "events.h"
 #include "screen.h"
 
+typedef enum {
+    PIECE_O,
+    PIECE_I,
+    PIECE_T,
+    PIECE_L,
+    PIECE_J,
+    PIECE_S,
+    PIECE_Z,
+} Pieces;
 
 static void handle_menu_event(Game *game, Event event) {
     if (event == EVENT_SELECT) {
@@ -47,9 +56,27 @@ static void gameloop(Game *game) {
     }
 }
 
+static void fill_bag(Queue *queue) {
+    queue_add(queue, PIECE_O);
+    queue_add(queue, PIECE_I);
+    queue_add(queue, PIECE_T);
+    queue_add(queue, PIECE_L);
+    queue_add(queue, PIECE_J);
+    queue_add(queue, PIECE_S);
+    queue_add(queue, PIECE_Z);
+
+    queue_shuffle(queue);
+}
+
 void start_game() {
     Game game;
     game.state = STATE_MENU;
+
+    // Initialize bag and next queue
+    fill_bag(&game.bag);
+    game.next_queue = game.bag;
+    fill_bag(&game.bag);
+
     gameloop(&game);
 }
 
