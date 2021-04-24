@@ -110,7 +110,7 @@ void get_screen_size(int *height, int *width) {
     getmaxyx(stdscr, *height, *width);
 }
 
-void draw(const char *debug) {
+void draw() {
     int height, width;
     get_screen_size(&height, &width);
 

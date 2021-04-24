@@ -1,3 +1,6 @@
+#ifndef GAME_H
+#define GAME_H
+
 #include "queue.h"
 
 typedef enum {
@@ -13,3 +16,5 @@ typedef struct Game {
 } Game;
 
 void start_game();
+
+#endif

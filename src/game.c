@@ -93,9 +93,7 @@ static void handle_menu_event(Game *game, Event event) {
 }
 
 static void handle_play_event(Game *game, Event event) {
-    const char *test = event_to_string(event);
-
-    draw(test);
+    draw_game(game);
 }
 
 static void gameloop(Game *game) {

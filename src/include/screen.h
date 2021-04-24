@@ -1,4 +1,9 @@
+#ifndef SCREEN_H
+#define SCREEN_H
+
 #include <stdbool.h>
+
+#include "game.h"
 
 /**
  * Initializes curses
@@ -24,9 +29,11 @@ void erase_screen();
 
 void update_screen();
 
-void draw(const char *debug);
+void draw_game(Game *game);
 void draw_menu();
 
 #if DEBUG_LINE
 void draw_debug_line(const char *event);
+#endif
+
 #endif

@@ -1,3 +1,6 @@
+#ifndef EVENTS_H
+#define EVENTS_H
+
 typedef enum {
     EVENT_NONE,
     EVENT_ROTATE,
@@ -14,3 +17,5 @@ typedef enum {
 Event get_event();
 
 const char *event_to_string(Event event);
+
+#endif
