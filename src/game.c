@@ -20,8 +20,8 @@ static void handle_play_event(Game *game, Event event) {
 
 static void gameloop(Game *game) {
     while (1) {
-        erase_screen();
         Event event = get_event();
+        erase_screen();
 
 #if DEBUG_LINE
         const char *event_str = event_to_string(event);
