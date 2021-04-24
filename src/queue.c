@@ -2,7 +2,7 @@
 
 #include "queue.h"
 
-void queue_add(Queue *queue, int item) {
+void queue_add(Queue *queue, Piece item) {
     if (queue->size >= QUEUE_CAPACITY) {
         return;
     }
@@ -17,16 +17,16 @@ static void shift_down(Queue *queue) {
     }
 }
 
-int queue_pop(Queue *queue) {
+bool queue_pop(Queue *queue, Piece *piece) {
     if (queue->size <= 0){
-        return -1;
+        return false;
     }
 
-    int item = queue->data[0];
+    *piece = queue->data[0];
     shift_down(queue);
     queue->size -= 1;
 
-    return item;
+    return true;
 }
 
 void queue_shuffle(Queue *queue) {
@@ -35,7 +35,7 @@ void queue_shuffle(Queue *queue) {
         int first = (rand() % queue->size);
         int second = (rand() % queue->size);
 
-        int temp = queue->data[first];
+        Piece temp = queue->data[first];
         queue->data[first] = queue->data[second];
         queue->data[second] = temp;
     }
