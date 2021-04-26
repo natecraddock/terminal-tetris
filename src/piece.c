@@ -11,10 +11,10 @@ Piece piece_new(PieceType type) {
 
     switch (type){
         case PIECE_O:
-            point_set(&piece.blocks[0], 1, 0);
-            point_set(&piece.blocks[1], 2, 0);
-            point_set(&piece.blocks[2], 1, 1);
-            point_set(&piece.blocks[3], 2, 1);
+            point_set(&piece.blocks[0], 0, 0);
+            point_set(&piece.blocks[1], 1, 0);
+            point_set(&piece.blocks[2], 0, 1);
+            point_set(&piece.blocks[3], 1, 1);
             break;
 
         case PIECE_I:
