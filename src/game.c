@@ -62,6 +62,9 @@ void start_game() {
     Game game;
     game.state = STATE_MENU;
 
+    game.bag.size = 0;
+    game.next_queue.size = 0;
+
     // Initialize bag and next queue
     fill_bag(&game.bag);
     game.next_queue = game.bag;
