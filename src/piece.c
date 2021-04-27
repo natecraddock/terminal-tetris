@@ -18,10 +18,10 @@ Piece piece_new(PieceType type) {
             break;
 
         case PIECE_I:
-            point_set(&piece.blocks[0], 1, 0);
+            point_set(&piece.blocks[0], 0, 1);
             point_set(&piece.blocks[1], 1, 1);
-            point_set(&piece.blocks[2], 1, 2);
-            point_set(&piece.blocks[3], 1, 3);
+            point_set(&piece.blocks[2], 2, 1);
+            point_set(&piece.blocks[3], 3, 1);
             break;
 
         case PIECE_T:
@@ -56,7 +56,7 @@ Piece piece_new(PieceType type) {
             point_set(&piece.blocks[0], 0, 0);
             point_set(&piece.blocks[1], 1, 0);
             point_set(&piece.blocks[2], 1, 1);
-            point_set(&piece.blocks[3], 1, 2);
+            point_set(&piece.blocks[3], 2, 1);
             break;
     }
 
