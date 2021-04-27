@@ -1,6 +1,8 @@
 #ifndef PIECE_H
 #define PIECE_H
 
+#define PIECE_NUM_BLOCKS 4
+
 typedef enum {
     PIECE_O,
     PIECE_I,
@@ -18,7 +20,7 @@ typedef struct {
 
 typedef struct {
     Point location;
-    Point blocks[4];
+    Point blocks[PIECE_NUM_BLOCKS];
     PieceType type;
 } Piece;
 
