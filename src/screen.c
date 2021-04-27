@@ -73,11 +73,52 @@ static void draw_labeled_box(int y, int x, int h, int w, const char *label) {
     mvwaddstr(stdscr, y - 1, x - 1 + str_offset, label);
 }
 
+static void initialize_colors() {
+    init_pair(COLOR_PIECE_O, -1, COLOR_YELLOW);
+    init_pair(COLOR_PIECE_I, -1, COLOR_CYAN);
+    init_pair(COLOR_PIECE_T, -1, COLOR_MAGENTA);
+    init_pair(COLOR_PIECE_L, -1, COLOR_WHITE);
+    init_pair(COLOR_PIECE_J, -1, COLOR_BLUE);
+    init_pair(COLOR_PIECE_S, -1, COLOR_GREEN);
+    init_pair(COLOR_PIECE_Z, -1, COLOR_RED);
+}
+
+static void draw_piece(int x, int y, Piece *piece) {
+    attron(COLOR_PAIR(piece->type + 1));
+    for (int i = 0; i < PIECE_NUM_BLOCKS; i++) {
+        Point *block = &piece->blocks[i];
+        mvwaddstr(stdscr, y + block->y, x + (block->x * 2), "  ");
+    }
+    attroff(COLOR_PAIR(piece->type + 1));
+}
+
+static void draw_pieces_in_queue(int y, int x, Queue *queue) {
+    for (int i = 0; i < QUEUE_AREA_HEIGHT / 3; i++) {
+        int padding = 2;
+        Piece *piece = &queue->data[i];
+
+        // Check for special padding cases
+        if (piece->type == PIECE_O) {
+            padding += 2;
+        }
+        else if (piece->type != PIECE_I) {
+            padding += 1;
+        }
+
+        draw_piece(x + padding, y, piece);
+
+        y += 3;
+    }
+}
+
 void init_screen() {
     // Required for unicode
     setlocale(LC_ALL, "");
 
     initscr();
+    start_color();
+    use_default_colors();
+    initialize_colors();
     cbreak();
     nodelay(stdscr, true);
     noecho();
@@ -124,7 +165,7 @@ void draw_game(Game *game) {
     draw_labeled_box(origin_y + PADDING, origin_x + PADDING, HOLD_AREA_HEIGHT, HOLD_AREA_WIDTH, "HOLD");
 
     // Score box
-    draw_labeled_box(origin_y + PADDING + BORDER(HOLD_AREA_HEIGHT) + PADDING,
+    draw_labeled_box(origin_y + PADDING + BORDER(HOLD_AREA_HEIGHT) + PADDING - 1,
              origin_x + PADDING, SCORE_AREA_HEIGHT, SCORE_AREA_WIDTH, "POINTS");
 
     origin_x += PADDING + BORDER(HOLD_AREA_WIDTH);
@@ -132,9 +173,12 @@ void draw_game(Game *game) {
     // Game area
     draw_box(origin_y + PADDING, origin_x + PADDING, GAME_AREA_HEIGHT, GAME_AREA_WIDTH);
     origin_x += PADDING + BORDER(GAME_AREA_WIDTH);
-
+    
     // Queue area
     draw_labeled_box(origin_y + PADDING, origin_x + PADDING, QUEUE_AREA_HEIGHT, QUEUE_AREA_WIDTH, "NEXT");
+
+    // Draw pieces in next_queue
+    draw_pieces_in_queue(origin_y + PADDING, origin_x + PADDING, &game->next_queue);
 
     wnoutrefresh(stdscr);
 }
