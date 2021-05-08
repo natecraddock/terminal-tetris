@@ -111,6 +111,20 @@ static void draw_pieces_in_queue(int y, int x, Queue *queue) {
     }
 }
 
+static void draw_gameboard(int y, int x, Game *game) {
+    for (int i = 0; i < BOARD_HEIGHT; i++) {
+        for (int j = 0; j < BOARD_WIDTH; j++) {
+            attron(COLOR_PAIR(game->board[i][j]));
+            mvwaddstr(stdscr, y + i, x + (j * 2), "  ");
+            attroff(COLOR_PAIR(game->board[i][j]));
+        }
+    }
+
+    // Draw active piece
+    Point *point = &game->active_piece.location;
+    draw_piece(x + point->x, y + point->y, &game->active_piece);
+}
+
 void init_screen() {
     // Required for unicode
     setlocale(LC_ALL, "");
@@ -172,6 +186,7 @@ void draw_game(Game *game) {
 
     // Game area
     draw_box(origin_y + PADDING, origin_x + PADDING, GAME_AREA_HEIGHT, GAME_AREA_WIDTH);
+    draw_gameboard(origin_y + PADDING, origin_x + PADDING, game);
     origin_x += PADDING + BORDER(GAME_AREA_WIDTH);
     
     // Queue area

@@ -14,6 +14,21 @@ static void handle_menu_event(Game *game, Event event) {
 }
 
 static void handle_play_event(Game *game, Event event) {
+    if (event == EVENT_QUIT) {
+        game->state = STATE_MENU;
+        return;
+    }
+    // Get time and see if block needs to fall
+    struct timespec current;
+    clock_gettime(CLOCK_MONOTONIC_RAW, &current);
+
+    unsigned long delta_us = (current.tv_sec - game->last_fall.tv_sec) * 1000000 + ((current.tv_nsec - game->last_fall.tv_nsec) / 1000);
+
+    if (delta_us > 1000000) {
+        game->last_fall = current;
+        game->active_piece.location.y += 1;
+    }
+
     draw_game(game);
 }
 
@@ -58,10 +73,10 @@ static void fill_bag(Queue *queue) {
     queue_shuffle(queue);
 }
 
-static void init_board(char board[20][10]) {
-    for (int i = 0; i < 20; i++) {
-        for (int j = 0; j < 10; j++) {
-            board[i][j] = 0;      //Replace with enum
+static void init_board(char board[BOARD_HEIGHT][BOARD_WIDTH]) {
+    for (int i = 0; i < BOARD_HEIGHT; i++) {
+        for (int j = 0; j < BOARD_WIDTH; j++) {
+            board[i][j] = COLOR_NONE;
         }
     }
 }
@@ -80,6 +95,10 @@ void start_game() {
 
     // Initialize board
     init_board(game.board);
+
+    // Give active piece
+    queue_pop(&game.next_queue, &game.active_piece);
+    point_set(&game.active_piece.location, 4, 0);
 
     gameloop(&game);
 }
