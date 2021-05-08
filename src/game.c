@@ -58,6 +58,14 @@ static void fill_bag(Queue *queue) {
     queue_shuffle(queue);
 }
 
+static void init_board(char board[20][10]) {
+    for (int i = 0; i < 20; i++) {
+        for (int j = 0; j < 10; j++) {
+            board[i][j] = 0;      //Replace with enum
+        }
+    }
+}
+
 void start_game() {
     Game game;
     game.state = STATE_MENU;
@@ -70,6 +78,8 @@ void start_game() {
     game.next_queue = game.bag;
     fill_bag(&game.bag);
 
+    // Initialize board
+    init_board(game.board);
+
     gameloop(&game);
 }
-

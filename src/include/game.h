@@ -13,6 +13,7 @@ typedef struct Game {
     State state;
     Queue next_queue;
     Queue bag;
+    char board[20][10];
 } Game;
 
 void start_game();
