@@ -74,22 +74,22 @@ static void draw_labeled_box(int y, int x, int h, int w, const char *label) {
 }
 
 static void initialize_colors() {
-    init_pair(COLOR_PIECE_O, -1, COLOR_YELLOW);
-    init_pair(COLOR_PIECE_I, -1, COLOR_CYAN);
-    init_pair(COLOR_PIECE_T, -1, COLOR_MAGENTA);
-    init_pair(COLOR_PIECE_L, -1, COLOR_WHITE);
-    init_pair(COLOR_PIECE_J, -1, COLOR_BLUE);
-    init_pair(COLOR_PIECE_S, -1, COLOR_GREEN);
-    init_pair(COLOR_PIECE_Z, -1, COLOR_RED);
+    init_pair(PIECE_O, -1, COLOR_YELLOW);
+    init_pair(PIECE_I, -1, COLOR_CYAN);
+    init_pair(PIECE_T, -1, COLOR_MAGENTA);
+    init_pair(PIECE_L, -1, COLOR_WHITE);
+    init_pair(PIECE_J, -1, COLOR_BLUE);
+    init_pair(PIECE_S, -1, COLOR_GREEN);
+    init_pair(PIECE_Z, -1, COLOR_RED);
 }
 
 static void draw_piece(int x, int y, Piece *piece) {
-    attron(COLOR_PAIR(piece->type + 1));
+    attron(COLOR_PAIR(piece->type));
     for (int i = 0; i < PIECE_NUM_BLOCKS; i++) {
         Point *block = &piece->blocks[i];
         mvwaddstr(stdscr, y + block->y, x + (block->x * 2), "  ");
     }
-    attroff(COLOR_PAIR(piece->type + 1));
+    attroff(COLOR_PAIR(piece->type));
 }
 
 static void draw_pieces_in_queue(int y, int x, Queue *queue) {

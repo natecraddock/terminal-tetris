@@ -4,7 +4,7 @@
 #define PIECE_NUM_BLOCKS 4
 
 typedef enum {
-    PIECE_O,
+    PIECE_O = 1,
     PIECE_I,
     PIECE_T,
     PIECE_L,

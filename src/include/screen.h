@@ -6,18 +6,6 @@
 #include "game.h"
 
 /**
- * Color defines
- */
-
-#define COLOR_PIECE_O 1
-#define COLOR_PIECE_I 2
-#define COLOR_PIECE_T 3
-#define COLOR_PIECE_L 4
-#define COLOR_PIECE_J 5
-#define COLOR_PIECE_S 6
-#define COLOR_PIECE_Z 7
-
-/**
  * Initializes curses
  */
 void init_screen();
