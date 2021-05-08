@@ -41,8 +41,8 @@ static void gameloop(Game *game) {
         }
 
         update_screen();
-
-        sleep(1);
+        // 100 ms delay
+        usleep(100000);
     }
 }
 
