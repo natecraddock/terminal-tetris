@@ -107,7 +107,10 @@ static void draw_pieces_in_queue(int y, int x, Queue *queue) {
 
         draw_piece(x + padding, y, piece);
 
-        y += 3;
+        // If the next piece is an I, only add two lines of padding
+        // because the I is already padded on the top row.
+        Piece *next_piece = &queue->data[i + 1];
+        y += (next_piece->type == PIECE_I) ? 2 : 3;
     }
 }
 
