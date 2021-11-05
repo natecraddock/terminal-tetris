@@ -10,6 +10,8 @@ if(${DEBUG_LINE})
   add_compile_options(-DDEBUG_LINE)
 endif()
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 project(terminal-tetris)
 
 add_compile_options(-Wall -Werror -D_XOPEN_SOURCE_EXTENDED)
