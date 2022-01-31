@@ -1,10 +1,68 @@
+#include <stdbool.h>
 #include <unistd.h>
 
 #include "game.h"
 #include "events.h"
+#include "queue.h"
 #include "screen.h"
 #include "piece.h"
 
+static void fill_bag(Queue *queue) {
+    queue_add(queue, piece_new(PIECE_O));
+    queue_add(queue, piece_new(PIECE_I));
+    queue_add(queue, piece_new(PIECE_T));
+    queue_add(queue, piece_new(PIECE_L));
+    queue_add(queue, piece_new(PIECE_J));
+    queue_add(queue, piece_new(PIECE_S));
+    queue_add(queue, piece_new(PIECE_Z));
+
+    queue_shuffle(queue);
+}
+
+static bool bottomCollisionCheck(Piece activePiece, char board[BOARD_HEIGHT][BOARD_WIDTH]) {
+
+    // TODO: Check for other blocks in board
+    
+    // See if it touched bottom of board
+    if (activePiece.location.y == BOARD_HEIGHT) {
+        return true;
+
+        // TODO: Place active piece on board
+    }
+
+    return false;
+}
+
+// Moves the game's active piece down in the board
+// If the piece hits the bottom it returns true
+static bool moveActivePieceDown(Game *game) {
+   
+    // See if active piece is at bottom
+    if (bottomCollisionCheck(game->active_piece, game->board)) {
+        return true;   
+    }
+    
+    // Advance the piece downward
+    game->active_piece.location.y += 1;
+    return false;
+}
+
+// Retrieves an an active piece from queue or hold
+static void getNewActivePiece(Game *game, bool isHold) {
+
+    // TODO: Check if we are grabing from queue or hold
+
+    queue_pop(&game->next_queue, &game->active_piece);
+    point_set(&game->active_piece.location, 4, 0);
+    
+    // Refill bag if it is empty
+    if (game->bag.size == 0) {
+        fill_bag(&game->bag);
+    }
+    
+    // Take piece from bag and put it into next_queue
+    queue_to_queue_copy(&game->bag, &game->next_queue);
+}
 
 static void handle_menu_event(Game *game, Event event) {
     if (event == EVENT_SELECT) {
@@ -26,7 +84,13 @@ static void handle_play_event(Game *game, Event event) {
 
     if (delta_us > 1000000) {
         game->last_fall = current;
-        game->active_piece.location.y += 1;
+
+        // Move active piece down
+        bool pieceLocked = moveActivePieceDown(game);
+
+        if (pieceLocked) {
+            getNewActivePiece(game, false);
+        }
     }
 
     draw_game(game);
@@ -59,18 +123,6 @@ static void gameloop(Game *game) {
         // 100 ms delay
         usleep(100000);
     }
-}
-
-static void fill_bag(Queue *queue) {
-    queue_add(queue, piece_new(PIECE_O));
-    queue_add(queue, piece_new(PIECE_I));
-    queue_add(queue, piece_new(PIECE_T));
-    queue_add(queue, piece_new(PIECE_L));
-    queue_add(queue, piece_new(PIECE_J));
-    queue_add(queue, piece_new(PIECE_S));
-    queue_add(queue, piece_new(PIECE_Z));
-
-    queue_shuffle(queue);
 }
 
 static void init_board(char board[BOARD_HEIGHT][BOARD_WIDTH]) {

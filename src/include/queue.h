@@ -15,5 +15,6 @@ typedef struct Queue {
 void queue_add(Queue *queue, Piece item);
 bool queue_pop(Queue *queue, Piece *piece);
 void queue_shuffle(Queue *queue);
+bool queue_to_queue_copy(Queue *queueOne, Queue * queueTwo);
 
 #endif

@@ -188,7 +188,7 @@ void draw_game(Game *game) {
     origin_x += PADDING + BORDER(HOLD_AREA_WIDTH);
 
     // Game area
-    draw_box(origin_y + PADDING, origin_x + PADDING, GAME_AREA_HEIGHT, GAME_AREA_WIDTH);
+    draw_box(origin_y + PADDING, origin_x + PADDING, GAME_AREA_HEIGHT + PADDING, GAME_AREA_WIDTH);
     draw_gameboard(origin_y + PADDING, origin_x + PADDING, game);
     origin_x += PADDING + BORDER(GAME_AREA_WIDTH);
     
